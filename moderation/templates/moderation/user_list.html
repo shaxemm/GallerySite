@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+
+{% block title %}Users Moderation{% endblock %}
+
+{% block content %}
+<h2>Users</h2>
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Name of User</th>
+            <th>Email</th>
+            <th>Activity</th>
+            <th>Staff</th>
+            <th>Registration date</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for user in users %}
+        <tr>
+            <td>{{ user.id }}</td>
+            <td>{{ user.username }}</td>
+            <td>{{ user.email }}</td>
+            <td>{% if user.is_active %}Yes{% else %}No{% endif %}</td>
+            <td>{% if user.is_staff %}Yes{% else %}No{% endif %}</td>
+            <td>{{ user.date_joined|date:"d.m.Y H:i" }}</td>
+            <td>
+
+                <a href="/moderation/user_detail/{{user.id}}" class="btn btn-warning btn-sm">Details</a>
+                {% if user.is_blocked %}
+                    <a href="/moderation/user/{{user.id}}/block/" class="btn btn-success btn-sm">Unblock</a>
+                {% else %}
+                    <a href="/moderation/user/{{user.id}}/block/" class="btn btn-danger btn-sm">Block</a>
+                {% endif %}
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}
